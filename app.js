@@ -8,18 +8,20 @@ var express = require('express')
   , path = require('path')
   , io = require('socket.io').listen(server)
   , spawn = require('child_process').spawn
-  , omx = require('omxcontrol');
+  , omx = require('omxcontrol')
+  , pandora = require('pandora');
 
 
 
 // all environments
-app.set('port', process.env.TEST_PORT || 8080);
+app.set('port', process.env.TEST_PORT || 9000);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(omx());
+app.use(pandora());
 
 // development only
 if ('development' == app.get('env')) {
@@ -33,6 +35,14 @@ app.get('/', function (req, res) {
 
 app.get('/remote', function (req, res) {
   res.sendfile(__dirname + '/public/remote.html');
+});
+
+app.get('/music', function (req, res) {
+  res.sendfile(__dirname + '/public/music.html');
+});
+
+app.get('/control', function (req, res) {
+  res.sendfile(__dirname + '/public/control.html');
 });
 
 app.get('/play/:video_id', function (req, res) {
@@ -96,10 +106,11 @@ io.sockets.on('connection', function (socket) {
  socket.on("video", function(data){
 
     if( data.action === "play"){
-    var id = data.video_id,
-         url = "http://www.youtube.com/watch?v="+id;
+    var id = data.video_id;
+    var url = "http://www.youtube.com/watch?v="+id;
 
-    var runShell = new run_shell('youtube-dl',['-o','%(id)s.%(ext)s','-f','/18/22',url],
+    console.log("Command is youtube " + url);
+    var runShell = new run_shell('youtube',[url],
         function (me, buffer) {
             me.stdout += buffer.toString();
             socket.emit("loading",{output: me.stdout});
@@ -107,7 +118,7 @@ io.sockets.on('connection', function (socket) {
          },
         function () {
             //child = spawn('omxplayer',[id+'.mp4']);
-            omx.start(id+'.mp4');
+            //omx.start(id+'.mp4');
         });
     }
 

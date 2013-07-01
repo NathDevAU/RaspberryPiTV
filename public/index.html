@@ -31,13 +31,17 @@
 			<span class="ico">></span>
 			<p>Play</p>
 		</div>
+		<div class="a-block">
+			<span class="ico">[</span>
+			<p>Test</p>
+		</div>
 		<div id="end-block"></div>
 	</div>
 	<div class="weather-block">
 		<ul class="weather"></ul>
 	</div>
 	<div class="footer">
-		<div class="lamba"><img src="images/ll_logo.png"/></div>
+        <!-- <div class="lamba"><img src="images/ll_logo.png"/></div> -->
 	</div>
 	<!-- Les Javascripts -->
 	<script src="/socket.io/socket.io.js"></script>
@@ -45,8 +49,8 @@
 	<script src="js/mustache.js" type="text/javascript"></script>
 	<script src="js/main.js" type="text/javascript"></script>
 	<script>
-		var socket = io.connect('http://192.168.0.102:8080');
-	  //var socket = io.connect('http://raspberrypi.local:8080');
+		var socket = io.connect('http://192.168.1.76:9000');
+	  //var socket = io.connect('http://raspberrypi.local:9000');
 	  socket.on('connect', function(data){
 		socket.emit('screen');
 	  });

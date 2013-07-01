@@ -18,7 +18,7 @@ var Loader = {
 };
 var Weather = {
 	init: function(){
-		this.getWeather('c9d417b22edc92cf','LB','Beirut');
+		this.getWeather('c9d417b22edc92cf','MD','Severn');
 	},
 	getWeather: function(key, country, city){
 		var that = this;
