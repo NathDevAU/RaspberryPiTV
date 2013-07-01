@@ -41,6 +41,10 @@ app.get('/music', function (req, res) {
   res.sendfile(__dirname + '/public/music.html');
 });
 
+app.get('/voice', function (req, res) {
+  res.sendfile(__dirname + '/public/voice.html');
+});
+
 app.get('/control', function (req, res) {
   res.sendfile(__dirname + '/public/control.html');
 });
