@@ -1,4 +1,4 @@
-node_modules
+node_modules/express
 *.un~
 *.log
 nohup.out
