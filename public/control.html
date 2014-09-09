@@ -13,6 +13,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 
 	<script src="js/controller.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/button.css">
 </head>
 <body>
 	<div class="r-container ">
@@ -62,27 +63,29 @@
 	
 	<script>	 
 		
-	  	var socket = io.connect('http://192.168.1.76:9000'); 
+	  	var socket = io.connect('http://192.168.1.100:9000'); 
 	  //var socket = io.connect('http://raspberrypi.local:8080/');
 	    socket.on('connect', function(data){
 	  	socket.emit('remote');
 	  	
 		$$(".r-container").swipeLeft(function(){
 			socket.emit('controll',{action:"swipeLeft"}); 
+            window.location.href = "http://192.168.1.100:9000/voice";
 		});
 		
 		$$(".r-container").swipeRight(function(){
 			socket.emit('controll',{action:"swipeRight"}); 
+            window.location.href = "http://192.168.1.100:9000/remote";
 		});
 		$$(".r-header").tap(function(){
 			socket.emit('controll',{action:"tap"}); 
 			$(".app-body").fadeToggle("fast", function () {});	
-			$.get('http://192.168.1.76:9000/omx/quit',function(data){
+			$.get('http://192.168.1.100:9000/omx/quit',function(data){
 				console.log(data);
 			});
 		});
 		/*$$(".app-body").tap(function(){
-			$.get('http://192.168.1.76:9000/omx/pause',function(data){
+			$.get('http://192.168.1.100:9000/omx/pause',function(data){
 				console.log(data);
 			});
 		});*/

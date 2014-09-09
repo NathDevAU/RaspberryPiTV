@@ -13,6 +13,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	
 	<script src="js/music.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/button.css">
 </head>
 <body>
 	<div class="r-container ">
@@ -40,6 +41,8 @@
             <button onclick="player_pause()"><img src="images/pause.png"></img></button>
             <button onclick="player_quit()"><img src="images/stop.png"></img></button>
             <button onclick="player_next()"><img src="images/forward15.png"></img></button>
+            <br /><br /><br /><br />
+            <button onclick="power()"><img src="images/power.png"></img></button>
 		<section class="slider">
 			<div class="list-wrapper">
 		
@@ -58,7 +61,7 @@
 	
 	<script>	 
 		
-	  	var socket = io.connect('http://192.168.1.76:9000'); 
+	  	var socket = io.connect('http://192.168.1.100:9000'); 
 	  //var socket = io.connect('http://raspberrypi.local:8080/');
 	    socket.on('connect', function(data){
 	  	socket.emit('remote');

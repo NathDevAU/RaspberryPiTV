@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>rPiTV - Lamba Labs Workshop</title>
+	<title>rPiTV</title>
 	
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -19,20 +19,20 @@
 	
 	<div class="app-block">
 		<div id="start-block"></div>
-		<div class="a-block selected">
+		<div id="watch-block" class="a-block selected">
 			<span class="ico">:</span>
 			<p>Watch</p>
 		</div>
-		<div class="a-block">
+		<div id="listen-block" class="a-block">
 			<span class="ico">;</span>
 			<p>Listen</p>
 		</div>
-		<div class="a-block">
+		<div id="play-block" class="a-block">
 			<span class="ico">></span>
 			<p>Play</p>
 		</div>
-		<div class="a-block">
-			<span class="ico">[</span>
+		<div id="test-block" class="a-block">
+			<span class="ico">]</span>
 			<p>Test</p>
 		</div>
 		<div id="end-block"></div>
@@ -41,6 +41,18 @@
 		<ul class="weather"></ul>
 	</div>
 	<div class="footer">
+<div class="extra-data" id="watch">
+    <p>Testing Watch</p>
+</div>
+<div class="extra-data hide" id="listen">
+    <p>Testing Listen</p>
+</div>
+<div class="extra-data hide" id="play">
+    <p>Testing Play</p>
+</div>
+<div class="extra-data hide" id="test">
+    <p>Testing Test</p>
+</div>
         <!-- <div class="lamba"><img src="images/ll_logo.png"/></div> -->
 	</div>
 	<!-- Les Javascripts -->
@@ -49,7 +61,7 @@
 	<script src="js/mustache.js" type="text/javascript"></script>
 	<script src="js/main.js" type="text/javascript"></script>
 	<script>
-		var socket = io.connect('http://192.168.1.76:9000');
+		var socket = io.connect('http://192.168.1.100:9000');
 	  //var socket = io.connect('http://raspberrypi.local:9000');
 	  socket.on('connect', function(data){
 		socket.emit('screen');
@@ -83,6 +95,17 @@
 		  else if(data.action === "enter"){
 			  
 		  }
+
+          var elem = document.getElementById("more-content");
+          if($(current).attr("id") === "watch-block"){
+            elem.innerHTML = "watch";
+          } else if($(current).attr("id") === "listen-block"){
+            elem.innerHTML = "listen";
+          } else if($(current).attr("id") === "play-block"){
+            elem.innerHTML = "play";
+          } else if($(current).attr("id") === "test-block"){
+            elem.innerHTML = "test";
+          } 
 	  })
 		
 	</script>
