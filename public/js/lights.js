@@ -54,6 +54,20 @@ function bedroom_off()
 	});
 }
 
+function fan_on()
+{
+    $.get('http://192.168.1.9:9000/lights/fan_on',function(data){
+	    console.log(data);
+	});
+}
+
+function fan_off()
+{
+    $.get('http://192.168.1.9:9000/lights/fan_off',function(data){
+	    console.log(data);
+	});
+}
+
 function party_on()
 {
     $.get('http://192.168.1.9:9000/lights/party_on',function(data){

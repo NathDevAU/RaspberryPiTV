@@ -1,4 +1,4 @@
-    var socket = io.connect('http://stevenhickson.com:9000'); 
+    var socket = io.connect('http://192.168.1.100:9000'); 
     //var socket = io.connect('http://raspberrypi.local:8080/');
     socket.on('connect', function(data){
         socket.emit('remote');

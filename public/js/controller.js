@@ -47,3 +47,17 @@ function player_forward60()
 	});
 }
 
+function player_volup()
+{
+    $.get('http://192.168.1.100:9000/omx/volup',function(data){
+	    console.log(data);
+	});
+}
+
+function player_voldown()
+{
+    $.get('http://192.168.1.100:9000/omx/voldown',function(data){
+	    console.log(data);
+	});
+}
+

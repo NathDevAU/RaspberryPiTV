@@ -80,11 +80,12 @@ p
                 <div class="app-body">
                     <ul id="nav">
                         <li><a href="#" onclick="load_lights()">Lights</a></li>
-                        <li><a href="#" onclick="load_pandora()">Music Control</a></li>
+                        <li><a href="#" onclick="load_pandora()">Pandora</a></li>
                         <li><a href="#" onclick="load_control()">TV Control</a></li>
                         <li><a href="#" onclick="load_videos()">Movies</a></li>
                         <li><a href="#" onclick="load_remote()">YouTube</a></li>
                         <li><a href="#" onclick="load_voice()">Voice</a></li>
+                        <li><a href="#" onclick="load_cameras()">Cameras</a></li>
                     </ul>
                         <div id="content"> </div>
                         <script>
@@ -105,6 +106,9 @@ p
                             }
                             function load_voice(){
                                 $("#content").load("sub-voice.html");
+                            }
+                            function load_cameras(){
+                                $("#content").load("sub-cameras.html");
                             }
                         </script>
                 </div>
