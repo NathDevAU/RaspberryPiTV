@@ -1,0 +1,27 @@
+<html>
+<head>
+</head>
+<body>
+			<div class="search">
+			  <input type="text" placeholder="Search Videos" class="span3">
+          </div>
+                    <section class="slider">
+                    <div class="list-wrapper">
+
+                        <ul class="video slides list-pres span4" style="display: block;">
+
+                        </ul>
+                    </div>
+                    </section>
+                <script src="/socket.io/socket.io.js"></script>
+          <script src="js/videos.js"></script>
+<script id="videoTpl" type="text/template">
+    <li class="block">
+    <div class="tile">
+        <h3 class="tile-title">{{title}}</h3>
+        <a class="btn button btn-primary btn-large btn-block watch" data-id={{id}}>Watch</a>
+    </div>
+    </li>
+</script>
+</body>
+</html>

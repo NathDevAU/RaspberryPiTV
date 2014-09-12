@@ -7,14 +7,21 @@ function player_pause()
 
 function player_quit()
 {
-    $.get('http://192.168.1.1:9000/omx/quit',function(data){
+    $.get('http://192.168.1.100:9000/omx/quit',function(data){
+	    console.log(data);
+	});
+}
+
+function player_kill()
+{
+    $.get('http://192.168.1.100:9000/omx/kill',function(data){
 	    console.log(data);
 	});
 }
 
 function player_play()
 {
-    $.get('http://192.168.1.1:9000/omx/play',function(data){
+    $.get('http://192.168.1.100:9000/omx/play',function(data){
 	    console.log(data);
 	});
 }

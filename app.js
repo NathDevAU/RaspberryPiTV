@@ -9,6 +9,7 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , spawn = require('child_process').spawn
   , omx = require('omxcontrol')
+  , drinks = require('drinks')
   , pandora = require('pandora');
 
 
@@ -21,6 +22,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(omx());
+app.use(drinks());
 app.use(pandora());
 
 // development only
@@ -34,23 +36,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/remote', function (req, res) {
-  res.sendfile(__dirname + '/public/remote.html');
+  res.sendfile(__dirname + '/public/main.html');
 });
 
-app.get('/music', function (req, res) {
-  res.sendfile(__dirname + '/public/music.html');
-});
-
-app.get('/lights', function (req, res) {
-  res.sendfile(__dirname + '/public/lights.html');
-});
-
-app.get('/voice', function (req, res) {
-  res.sendfile(__dirname + '/public/voice.html');
-});
-
-app.get('/control', function (req, res) {
-  res.sendfile(__dirname + '/public/control.html');
+app.get('/main', function (req, res) {
+  res.sendfile(__dirname + '/public/main.html');
 });
 
 app.get('/play/:video_id', function (req, res) {
@@ -121,6 +111,19 @@ io.sockets.on('connection', function (socket) {
     var runShell = new run_shell('youtube',[url],
         function (me, buffer) {
             me.stdout += buffer.toString();
+            console.log(me.stdout);
+            socket.emit("loading",{output: me.stdout});
+         },
+        function () {
+            //child = spawn('omxplayer',[id+'.mp4']);
+            //omx.start(id+'.mp4');
+        });
+    } else if ( data.action == "local"){
+        var msg = unescape(data.video_id);
+        console.log("command is playdirect " + msg);
+        var runShell = new run_shell('playdirect',[msg],
+            function (me, buffer) {
+            me.stdout += buffer.toString();
             socket.emit("loading",{output: me.stdout});
             console.log(me.stdout);
          },
@@ -128,7 +131,19 @@ io.sockets.on('connection', function (socket) {
             //child = spawn('omxplayer',[id+'.mp4']);
             //omx.start(id+'.mp4');
         });
+    } else if ( data.action == "getvideos"){
+        var query = data.query;
+        console.log("Command is listvideo " + query);
+        var runShell = new run_shell('listvideo',[query],
+            function (me, buffer) {
+            me.stdout += buffer.toString();
+            console.log(me.stdout);
+            socket.emit("loading",{output: me.stdout});
+         },
+        function () {
+            //child = spawn('omxplayer',[id+'.mp4']);
+            //omx.start(id+'.mp4');
+        });
     }
-
  });
 });
