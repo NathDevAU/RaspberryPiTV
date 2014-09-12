@@ -56,6 +56,7 @@ server.listen(app.get('port'), function(){
 });
 
 var ss;
+var message;
 
 //Run and pipe shell script output
 function run_shell(cmd, args, cb, end) {
@@ -136,13 +137,16 @@ io.sockets.on('connection', function (socket) {
         console.log("Command is listvideo " + query);
         var runShell = new run_shell('listvideo',[query],
             function (me, buffer) {
-            me.stdout += buffer.toString();
-            console.log(me.stdout);
-            socket.emit("loading",{output: me.stdout});
+            //me.stdout += buffer.toString();
+            //console.log(me.stdout);
+            message += buffer.toString();
          },
         function () {
             //child = spawn('omxplayer',[id+'.mp4']);
             //omx.start(id+'.mp4');
+            console.log(message);
+            socket.emit("loading",{output: message});
+            message = "";
         });
     }
  });

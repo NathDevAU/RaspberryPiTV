@@ -1,13 +1,14 @@
+var host = document.location.origin;
 function rumcoke()
 {
-    $.get('http://192.168.1.100:9000/drinks/rumcoke',function(data){
+    $.get(host + '/drinks/rumcoke',function(data){
 	    console.log(data);
 	});
 }
 
 function gintonic()
 {
-    $.get('http://192.168.1.100:9000/drinks/gintonic',function(data){
+    $.get(host + '/drinks/gintonic',function(data){
 	    console.log(data);
 	});
 }

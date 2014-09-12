@@ -1,5 +1,5 @@
-    var socket = io.connect('http://192.168.1.100:9000'); 
-    //var socket = io.connect('http://raspberrypi.local:8080/');
+var host = document.location.origin;
+var socket = io.connect(host); 
     socket.on('connect', function(data){
         socket.emit('remote');
 
@@ -40,6 +40,7 @@
                     $(".watch").on("click",function(){
                         var video_id = $(this).data('id');
                         socket.emit('video',{action:"play", video_id:video_id});
+                        load_control();
                     });
                 });
 

@@ -81,8 +81,9 @@ p
                     <ul id="nav">
                         <li><a href="#" onclick="load_lights()">Lights</a></li>
                         <li><a href="#" onclick="load_pandora()">Pandora</a></li>
-                        <li><a href="#" onclick="load_control()">TV Control</a></li>
+                        <li><a href="#" onclick="load_control(1)">TV Control</a></li>
                         <li><a href="#" onclick="load_videos()">Movies</a></li>
+                        <li><a href="#" onclick="load_downloads()">Torrents</a></li>
                         <li><a href="#" onclick="load_remote()">YouTube</a></li>
                         <li><a href="#" onclick="load_voice()">Voice</a></li>
                         <li><a href="#" onclick="load_cameras()">Cameras</a></li>
@@ -92,27 +93,40 @@ p
                         <script>
                             function load_pandora(){
                                 $("#content").load("sub-music.html");
+                                $("#nav").toggle();
                             }
                             function load_lights(){
                                 $("#content").load("sub-lights.html");
+                                $("#nav").toggle();
                             }
-                            function load_control(){
+                            function load_control(toggle){
                                 $("#content").load("sub-control.html");
+                                if(toggle)
+                                    $("#nav").toggle();
                             }
                             function load_videos(){
                                 $("#content").load("sub-videos.html");
+                                $("#nav").toggle();
+                            }
+                            function load_downloads(){
+                                $("#content").load("sub-downloads.html");
+                                $("#nav").toggle();
                             }
                             function load_remote(){
                                 $("#content").load("sub-remote.html");
+                                $("#nav").toggle();
                             }
                             function load_voice(){
                                 $("#content").load("sub-voice.html");
+                                $("#nav").toggle();
                             }
                             function load_cameras(){
                                 $("#content").load("sub-cameras.html");
+                                $("#nav").toggle();
                             }
                             function load_drinks(){
                                 $("#content").load("sub-drinks.html");
+                                $("#nav").toggle();
                             }
                         </script>
                 </div>

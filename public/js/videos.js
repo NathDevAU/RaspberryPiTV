@@ -1,6 +1,5 @@
 var host = document.location.origin;
 var socket = io.connect(host); 
-    //var socket = io.connect('http://raspberrypi.local:8080/');
     socket.on('connect', function(data){
         socket.emit('remote');
 
@@ -31,7 +30,7 @@ var socket = io.connect(host);
         socket.on("loading", function(data){
             var lines = data.output.split(/\r\n|\r|\n/);
             console.log("Lines: " + lines.length);
-            if(lines.length == 15) {
+            //if(lines.length == 15) {
                 //console.log("I got: " + [lines]);
                 //Youtube.processResult(lines, socket);
                 $("ul.video").html("");
@@ -39,10 +38,11 @@ var socket = io.connect(host);
                 var i;
                 var fin = lines.length - 1;
                 for (i = 2; i < fin; ++i) {
-                    console.log(lines[i]);
+                    var name = lines[i].split("/");
+                    console.log(name[name.length-1]);
                     jsonObj = {
                         id:escape(lines[i]),
-                        title:lines[i]};
+                        title:name[name.length-1]};
                     
                     var template = $('#videoTpl').html(),
                         html = Mustache.to_html(template, jsonObj);
@@ -51,8 +51,9 @@ var socket = io.connect(host);
                     $(".watch").on("click",function(){
                         var video_id = $(this).data('id');
                         socket.emit('video',{action:"local", video_id:video_id});
+                        load_control();
                     });
-            }
+            //}
 
         })  
     });
