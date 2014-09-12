@@ -10,6 +10,7 @@ var express = require('express')
   , spawn = require('child_process').spawn
   , omx = require('omxcontrol')
   , drinks = require('drinks')
+  , lights = require('lights')
   , pandora = require('pandora');
 
 
@@ -23,6 +24,7 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(omx());
 app.use(drinks());
+app.use(lights());
 app.use(pandora());
 
 // development only
