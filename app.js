@@ -124,7 +124,8 @@ io.sockets.on('connection', function (socket) {
         var msg = unescape(data.video_id);
         if(msg == "Random") {
         console.log("command is playvideo -r -m " + query);
-        var runShell = new run_shell('playvideo',["-r","-m",query],
+        var queryArray = query.split(' ');
+        var runShell = new run_shell('playvideo',["-r","-m"].concat(queryArray),
             function (me, buffer) {
             me.stdout += buffer.toString();
             socket.emit("loading",{output: me.stdout});
