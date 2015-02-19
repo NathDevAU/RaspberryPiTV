@@ -18,3 +18,10 @@ function drinks( valve, time)
     var exec = require('child_process').exec;
     exec('drink_control.sh ' + valve + ' ' + time);
 }
+
+function kill()
+{
+    $.get(host + '/drinks/kill',function(data){
+	    console.log(data);
+	});
+}

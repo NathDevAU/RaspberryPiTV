@@ -57,6 +57,7 @@ server.listen(app.get('port'), function(){
 
 var ss;
 var message;
+var query;
 
 //Run and pipe shell script output
 function run_shell(cmd, args, cb, end) {
@@ -121,6 +122,17 @@ io.sockets.on('connection', function (socket) {
         });
     } else if ( data.action == "local"){
         var msg = unescape(data.video_id);
+        if(msg == "Random") {
+        console.log("command is playvideo -r -m " + query);
+        var runShell = new run_shell('playvideo',["-r","-m",query],
+            function (me, buffer) {
+            me.stdout += buffer.toString();
+            socket.emit("loading",{output: me.stdout});
+            console.log(me.stdout);
+         },
+        function () {
+        });
+        } else {
         console.log("command is playdirect " + msg);
         var runShell = new run_shell('playdirect',[msg],
             function (me, buffer) {
@@ -129,11 +141,10 @@ io.sockets.on('connection', function (socket) {
             console.log(me.stdout);
          },
         function () {
-            //child = spawn('omxplayer',[id+'.mp4']);
-            //omx.start(id+'.mp4');
         });
+        }
     } else if ( data.action == "getvideos"){
-        var query = data.query;
+        query = data.query;
         console.log("Command is listvideo " + query);
         var runShell = new run_shell('listvideo',[query],
             function (me, buffer) {

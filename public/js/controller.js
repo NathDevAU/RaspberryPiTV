@@ -83,3 +83,10 @@ function player_restart()
 	});
 }
 
+function player_subtitles()
+{
+    $.get(host + '/omx/subtitles',function(data){
+	    console.log(data);
+	});
+}
+

@@ -1,4 +1,4 @@
-var host = document.location.origin;
+var host = 'http://192.168.1.9:9000';
 function player_pause()
 {
     $.get(host + '/pandora/pause',function(data){

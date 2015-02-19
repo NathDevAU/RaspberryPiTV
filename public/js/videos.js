@@ -1,5 +1,6 @@
 var host = document.location.origin;
 var socket = io.connect(host); 
+var search;
     socket.on('connect', function(data){
         socket.emit('remote');
 
@@ -24,6 +25,7 @@ var socket = io.connect(host);
         $$(".app-body").tap(function(){
         });
         $(".search input").change(function() {
+            search = $(this).val();
             Youtube.getVideo($(this).val(), socket);
         });
 
@@ -33,8 +35,16 @@ var socket = io.connect(host);
             //if(lines.length == 15) {
                 //console.log("I got: " + [lines]);
                 //Youtube.processResult(lines, socket);
+                var rand = "Random";
                 $("ul.video").html("");
                 var jsonObj = [];
+                    jsonObj = {
+                        id:escape(rand),
+                        title:rand};
+                    
+                    var template = $('#videoTpl').html(),
+                        html = Mustache.to_html(template, jsonObj);
+                        $('ul.video').append(html);	
                 var i;
                 var fin = lines.length - 1;
                 for (i = 2; i < fin; ++i) {
