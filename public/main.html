@@ -3,7 +3,7 @@ p
     <head>
         <meta charset="utf-8">
         <title>rPiTV - Remote</title>
-        <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/flat-ui.css" rel="stylesheet" type="text/css">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <link rel="apple-touch-icon" href="images/custom_icon.png"/>
@@ -88,6 +88,7 @@ p
                         <li><a href="#" onclick="load_voice()">Voice</a></li>
                         <li><a href="#" onclick="load_cameras()">Cameras</a></li>
                         <li><a href="#" onclick="load_drinks()">Drinks</a></li>
+                        <li><a href="#" onclick="load_sousvide()">Sous Vide</a></li>
                     </ul>
                         <div id="content"> </div>
                         <script>
@@ -126,6 +127,10 @@ p
                             }
                             function load_drinks(){
                                 $("#content").load("sub-drinks.html");
+                                $("#nav").toggle();
+                            }
+                            function load_sousvide(){
+                                $("#content").load("sub-sousvide.html");
                                 $("#nav").toggle();
                             }
                         </script>
