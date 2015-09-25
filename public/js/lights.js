@@ -82,3 +82,38 @@ function party_off()
 	});
 }
 
+function dining_on()
+{
+    $.get('http://192.168.1.9:9000/lights/dining_on',function(data){
+	    console.log(data);
+	});
+}
+
+function dining_off()
+{
+    $.get('http://192.168.1.9:9000/lights/dining_off',function(data){
+	    console.log(data);
+	});
+}
+
+function outside_on()
+{
+    $.get('http://192.168.1.9:9000/lights/outside_on',function(data){
+	    console.log(data);
+	});
+}
+
+function outside_off()
+{
+    $.get('http://192.168.1.9:9000/lights/outside_off',function(data){
+	    console.log(data);
+	});
+}
+
+function garage()
+{
+    $.get('http://192.168.1.9:9000/lights/garage',function(data){
+	    console.log(data);
+	});
+}
+
