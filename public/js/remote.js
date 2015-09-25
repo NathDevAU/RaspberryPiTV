@@ -1,3 +1,17 @@
+var apiKey = 'AIzaSyDQXRRdSNZcPoG8lidNcmDfcYUsbEZ_VnM';
+googleApiClientReady = function() {
+  gapi.auth.init(function() {
+    gapi.client.setApiKey(apiKey);
+    window.setTimeout(loadAPIClientInterfaces, 1);
+  });
+}
+function loadAPIClientInterfaces() {
+  $('.pre-auth').hide();
+  $('.post-auth').show();
+  gapi.client.load('youtube', 'v3', function() {
+  });
+}
+
 var host = document.location.origin;
 var socket = io.connect(host); 
     socket.on('connect', function(data){
@@ -6,24 +20,23 @@ var socket = io.connect(host);
         //Youtube
         var Youtube = {
             getVideo: function(query, socket){
-                var max_videos = 12;
-                var url = "http://gdata.youtube.com/feeds/api/videos?vq=" + escape(query) + "&max-results=" + max_videos + "&alt=json-in-script&callback=?";
+                var request = gapi.client.youtube.search.list({
+                    q: query,
+                    part: 'snippet',
+                    maxResults: 12
+                });
 
-                $.getJSON(url, function(data){
+                request.execute(function(response) {
                     $("ul.video").html("");
                     var jsonObj = [];
-                    $(data.feed.entry).each(function(key, item){
-                        var a = item.id.$t.split("/"),
-                        id = a[6],
-                        title = item.title.$t,
-                        thumbnail = item.media$group.media$thumbnail[0].url,
-                        totalSec = item.media$group.yt$duration.seconds,
-                        hours = parseInt( totalSec / 3600 ) % 24,
-                        minutes = parseInt( totalSec / 60 ) % 60,
-                        seconds = totalSec % 60;
 
-                        var duration = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
-
+                    var srchItems = response.result.items;                      
+                    $.each(srchItems, function(index, item) {
+                        id = item.id.videoId;
+                        console.log(id);
+                        title = item.snippet.title;  
+                        thumbnail =  item.snippet.thumbnails.default.url;                 
+                        var duration = "0"
 
                         jsonObj = {
                             id:id,
