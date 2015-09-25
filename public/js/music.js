@@ -27,6 +27,19 @@ function player_next()
 	});
 }
 
+function player_volup()
+{
+    $.get(host + '/pandora/volumeup',function(data){
+	    console.log(data);
+	});
+}
+function player_voldown()
+{
+    $.get(host + '/pandora/volumedown',function(data){
+	    console.log(data);
+	});
+}
+
 function power()
 {
     $.get(host + '/pandora/power',function(data){
