@@ -1,3 +1,4 @@
+var host = document.location.origin;
 function kitchen_on()
 {
     $.get('http://192.168.1.9:9000/lights/kitchen_on',function(data){
@@ -12,30 +13,58 @@ function kitchen_off()
 	});
 }
 
-function living_on()
+function front_outside_on()
 {
-    $.get('http://192.168.1.9:9000/lights/living_on',function(data){
+    $.get('http://192.168.1.9:9000/lights/front_outside_on',function(data){
 	    console.log(data);
 	});
 }
 
-function living_off()
+function front_outside_off()
 {
-    $.get('http://192.168.1.9:9000/lights/living_off',function(data){
+    $.get('http://192.168.1.9:9000/lights/front_outside_off',function(data){
 	    console.log(data);
 	});
 }
 
-function hall_on()
+function back_outside_on()
 {
-    $.get('http://192.168.1.9:9000/lights/hall_on',function(data){
+    $.get('http://192.168.1.9:9000/lights/back_outside_on',function(data){
 	    console.log(data);
 	});
 }
 
-function hall_off()
+function back_outside_off()
 {
-    $.get('http://192.168.1.9:9000/lights/hall_off',function(data){
+    $.get('http://192.168.1.9:9000/lights/back_outside_off',function(data){
+	    console.log(data);
+	});
+}
+
+function down_hall_on()
+{
+    $.get('http://192.168.1.9:9000/lights/down_hall_on',function(data){
+	    console.log(data);
+	});
+}
+
+function down_hall_off()
+{
+    $.get('http://192.168.1.9:9000/lights/down_hall_off',function(data){
+	    console.log(data);
+	});
+}
+
+function up_hall_on()
+{
+    $.get('http://192.168.1.9:9000/lights/up_hall_on',function(data){
+	    console.log(data);
+	});
+}
+
+function up_hall_off()
+{
+    $.get('http://192.168.1.9:9000/lights/up_hall_off',function(data){
 	    console.log(data);
 	});
 }
@@ -82,37 +111,26 @@ function party_off()
 	});
 }
 
-function dining_on()
+function bonus_on()
 {
-    $.get('http://192.168.1.9:9000/lights/dining_on',function(data){
+    $.get('http://192.168.1.9:9000/lights/bonus_on',function(data){
 	    console.log(data);
 	});
 }
 
-function dining_off()
+function bonus_off()
 {
-    $.get('http://192.168.1.9:9000/lights/dining_off',function(data){
-	    console.log(data);
-	});
-}
-
-function outside_on()
-{
-    $.get('http://192.168.1.9:9000/lights/outside_on',function(data){
-	    console.log(data);
-	});
-}
-
-function outside_off()
-{
-    $.get('http://192.168.1.9:9000/lights/outside_off',function(data){
+    $.get('http://192.168.1.9:9000/lights/bonus_off',function(data){
 	    console.log(data);
 	});
 }
 
 function garage()
 {
-    $.get('http://192.168.1.9:9000/lights/garage',function(data){
+//$.get('http://192.168.1.9:9000/lights/garage',function(data){
+//	    console.log(data);
+//	});
+    $.get(host + '/misc/garage',function(data){
 	    console.log(data);
 	});
 }
