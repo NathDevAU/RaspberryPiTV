@@ -1,4 +1,7 @@
-var apiKey = 'AIzaSyDQXRRdSNZcPoG8lidNcmDfcYUsbEZ_VnM';
+// Read private data
+require(['private'], function(priv) {
+    apiKey = youtube_api_key;
+});
 googleApiClientReady = function() {
   gapi.auth.init(function() {
     gapi.client.setApiKey(apiKey);
