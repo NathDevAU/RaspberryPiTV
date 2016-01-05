@@ -4,14 +4,43 @@
 
 var express = require('express')
   , app = express()  
-  , server = require('http').createServer(app)
+  , fs = require('fs')
   , path = require('path')
-  , io = require('socket.io').listen(server)
   , spawn = require('child_process').spawn
   , omx = require('omxcontrol')
-  , drinks = require('drinks')
+  , misc = require('misc')
   , pandora = require('pandora');
 
+// Read private data
+var passwords = require('./private')
+// MAGIC HAPPENS HERE!
+var opts = {
+   
+  // Specify the key file for the server
+  key: fs.readFileSync('/home/pi/Authentication/server.key'),
+   
+  // Specify the certificate file
+  cert: fs.readFileSync('/home/pi/Authentication/server.crt'),
+   
+  // Specify the Certificate Authority certificate
+  ca: fs.readFileSync('/home/pi/Authentication/ca.crt'),
+   
+  // This is where the magic happens in Node.  All previous
+  // steps simply setup SSL (except the CA).  By requesting
+  // the client provide a certificate, we are essentially
+  // authenticating the user.
+  requestCert: true,
+   
+  // If specified as "true", no unauthenticated traffic
+  // will make it to the route specified.
+  rejectUnauthorized: true,
+
+  // Passord
+  passphrase: passwords.ssl_password
+};
+
+var server = require('https').createServer(opts, app)
+  , io = require('socket.io').listen(server)
 
 
 // all environments
@@ -22,7 +51,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(omx());
-app.use(drinks());
+app.use(misc());
 app.use(pandora());
 
 // development only
@@ -114,6 +143,7 @@ io.sockets.on('connection', function (socket) {
         function (me, buffer) {
             me.stdout += buffer.toString();
             console.log(me.stdout);
+            console.log(me.stderr);
             socket.emit("loading",{output: me.stdout});
          },
         function () {
