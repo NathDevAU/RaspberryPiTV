@@ -3,3 +3,4 @@ node_modules/express
 *.log
 nohup.out
 *.BAK
+private.js

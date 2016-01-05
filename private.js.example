@@ -1,0 +1,2 @@
+var ssl_password = "Your Password Here"
+exports.ssl_password = ssl_password
