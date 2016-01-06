@@ -33,7 +33,7 @@ var opts = {
    
   // If specified as "true", no unauthenticated traffic
   // will make it to the route specified.
-  rejectUnauthorized: true,
+  rejectUnauthorized: false,
 
   // Passord
   passphrase: passwords.ssl_password
@@ -49,7 +49,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(omx());
 app.use(misc());
 app.use(pandora());
@@ -59,23 +59,79 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//app.get('/public/*', function(req, res, next) {
+//    if (req.client.authorized) {
+//      next(); // call the next handler, which in this case is express.static
+//    } else {
+//      return res.status(403).send({ 
+//        success: false, 
+//        message: 'Access Unauthorized.' 
+//      });
+//    }
+//});
+
 //Routes
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/public/index.html');
+  if (req.client.authorized) {
+    res.sendfile(__dirname + '/public/index.html');
+  } else {
+    return res.status(403).send({ 
+      success: false, 
+      message: 'Access Unauthorized.' 
+    });
+  }
 });
 
 app.get('/remote', function (req, res) {
-  res.sendfile(__dirname + '/public/main.html');
+  if (req.client.authorized) {
+    res.sendfile(__dirname + '/public/main.html');
+  } else {
+    return res.status(403).send({ 
+      success: false, 
+      message: 'Access Unauthorized.' 
+    });
+  }
 });
 
 app.get('/main', function (req, res) {
-  res.sendfile(__dirname + '/public/main.html');
+  if (req.client.authorized) {
+    res.sendfile(__dirname + '/public/main.html');
+  } else {
+    return res.status(403).send({ 
+      success: false, 
+      message: 'Access Unauthorized.' 
+    });
+  }
 });
 
 app.get('/play/:video_id', function (req, res) {
 
 });
 
+//Catch alls here
+app.get('/:dir/:file', function(req, res) {
+    //console.log('req ', req);
+    if (req.client.authorized) {
+      res.sendfile(__dirname + '/public/' + req.params.dir + '/' + req.params.file);
+    } else {
+      return res.status(403).send({ 
+        success: false, 
+        message: 'Access Unauthorized.' 
+      });
+    }
+});
+
+app.get('/:file', function(req, res) {
+    //console.log('req ', req);
+    if (req.client.authorized) {
+      res.sendfile(__dirname + '/public/' + req.params.file);
+    } else {
+      return res.status(403).send({ 
+        success: false, 
+        message: 'Access Unauthorized.' 
+      });
+    }
+});
 
 //Socket.io Config
 io.set('log level', 1);

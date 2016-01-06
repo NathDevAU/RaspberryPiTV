@@ -1,2 +1,4 @@
 var ssl_password = "Your Password Here"
 exports.ssl_password = ssl_password
+var secret_token = "Secret Token Here"
+exports.secret_token = secret_token
