@@ -109,6 +109,19 @@ app.get('/play/:video_id', function (req, res) {
 });
 
 //Catch alls here
+app.get('/:dir/:dir2/:file', function(req, res) {
+    //console.log('req ', req);
+    if (req.client.authorized) {
+      res.sendfile(__dirname + '/public/' + req.params.dir + '/' + req.params.dir2 + '/' + req.params.file);
+    } else {
+      return res.status(403).send({ 
+        success: false, 
+        message: 'Access Unauthorized.' 
+      });
+    }
+});
+
+//Catch alls here
 app.get('/:dir/:file', function(req, res) {
     //console.log('req ', req);
     if (req.client.authorized) {
@@ -192,7 +205,7 @@ io.sockets.on('connection', function (socket) {
 
     if( data.action === "play"){
     var id = data.video_id;
-    var url = "http://www.youtube.com/watch?v="+id;
+    var url = "https://www.youtube.com/watch?v="+id;
 
     console.log("Command is youtube " + url);
     var runShell = new run_shell('youtube',[url],
