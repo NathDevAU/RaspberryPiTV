@@ -14,8 +14,9 @@ var express = require('express')
 // Read private data
 var passwords = require('./private')
 // MAGIC HAPPENS HERE!
-var opts = {
-   
+var opts
+if (passwords.use_ssl == true) {
+opts = {
   // Specify the key file for the server
   key: fs.readFileSync('/home/pi/Authentication/server.key'),
    
@@ -33,15 +34,40 @@ var opts = {
    
   // If specified as "true", no unauthenticated traffic
   // will make it to the route specified.
+  //rejectUnauthorized: false,
+
+  // Passord
+  passphrase: passwords.ssl_password
+};
+} else {
+    console.log('Not authenticating')
+opts = {
+  // Specify the key file for the server
+  key: fs.readFileSync('/home/pi/Authentication/server.key'),
+   
+  // Specify the certificate file
+  cert: fs.readFileSync('/home/pi/Authentication/server.crt'),
+   
+  // Specify the Certificate Authority certificate
+  ca: fs.readFileSync('/home/pi/Authentication/ca.crt'),
+   
+  // This is where the magic happens in Node.  All previous
+  // steps simply setup SSL (except the CA).  By requesting
+  // the client provide a certificate, we are essentially
+  // authenticating the user.
+  requestCert: false,
+   
+  // If specified as "true", no unauthenticated traffic
+  // will make it to the route specified.
   rejectUnauthorized: false,
 
   // Passord
   passphrase: passwords.ssl_password
 };
+}
 
 var server = require('https').createServer(opts, app)
   , io = require('socket.io').listen(server)
-
 
 // all environments
 app.set('port', process.env.TEST_PORT || 9000);
@@ -72,18 +98,19 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
-  if (req.client.authorized) {
+  if (req.client.authorized || (passwords.use_ssl == false)) {
     res.sendfile(__dirname + '/public/index.html');
   } else {
     return res.status(403).send({ 
       success: false, 
       message: 'Access Unauthorized.' 
     });
+    console.log('Passwords false')
   }
 });
 
 app.get('/remote', function (req, res) {
-  if (req.client.authorized) {
+  if (req.client.authorized || passwords.use_ssl == false) {
     res.sendfile(__dirname + '/public/main.html');
   } else {
     return res.status(403).send({ 
@@ -94,7 +121,7 @@ app.get('/remote', function (req, res) {
 });
 
 app.get('/main', function (req, res) {
-  if (req.client.authorized) {
+  if (req.client.authorized  || passwords.use_ssl == false) {
     res.sendfile(__dirname + '/public/main.html');
   } else {
     return res.status(403).send({ 
@@ -111,7 +138,7 @@ app.get('/play/:video_id', function (req, res) {
 //Catch alls here
 app.get('/:dir/:dir2/:file', function(req, res) {
     //console.log('req ', req);
-    if (req.client.authorized) {
+    if (req.client.authorized || passwords.use_ssl == false) {
       res.sendfile(__dirname + '/public/' + req.params.dir + '/' + req.params.dir2 + '/' + req.params.file);
     } else {
       return res.status(403).send({ 
@@ -124,7 +151,7 @@ app.get('/:dir/:dir2/:file', function(req, res) {
 //Catch alls here
 app.get('/:dir/:file', function(req, res) {
     //console.log('req ', req);
-    if (req.client.authorized) {
+    if (req.client.authorized || passwords.use_ssl == false) {
       res.sendfile(__dirname + '/public/' + req.params.dir + '/' + req.params.file);
     } else {
       return res.status(403).send({ 
@@ -136,7 +163,7 @@ app.get('/:dir/:file', function(req, res) {
 
 app.get('/:file', function(req, res) {
     //console.log('req ', req);
-    if (req.client.authorized) {
+    if (req.client.authorized || passwords.use_ssl == false) {
       res.sendfile(__dirname + '/public/' + req.params.file);
     } else {
       return res.status(403).send({ 
